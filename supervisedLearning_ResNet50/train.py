@@ -1,19 +1,3 @@
-
-import tensorflow as tf
-
-gpus = tf.config.experimental.list_physical_devices('GPU')
-if gpus:
-    try:
-        # すべての GPU のメモリ成長を許可する
-        for gpu in gpus:
-            tf.config.experimental.set_memory_growth(gpu, True)
-        tf.config.experimental.set_visible_devices(gpus, 'GPU')
-    except RuntimeError as e:
-        print(e)
-
-strategy = tf.distribute.MirroredStrategy()
-
-        
 from keras.preprocessing.image import ImageDataGenerator
 from keras.applications.resnet50 import ResNet50
 from keras.models import Sequential, Model
@@ -33,11 +17,11 @@ nb_classes = len(classes)
  
 train_data_dir = './dataset/train'
 validation_data_dir = './dataset/val'
-test_data_dir = './dataset/test'  # テストデータディレクトリのパス
+test_data_dir = './dataset/test'  
 
 nb_train_samples = 2868
 nb_validation_samples = 628
-nb_test_samples = 708  # テストデータのサンプル数
+nb_test_samples = 708 
 
 img_width, img_height = 416, 416
 batch_size = 32
@@ -69,7 +53,6 @@ validation_generator = validation_datagen.flow_from_directory(
   class_mode='categorical',
   batch_size=batch_size)
 
-# テストデータジェネレータの設定
 test_generator = test_datagen.flow_from_directory(
   test_data_dir,
   target_size=(img_width, img_height),
@@ -97,9 +80,7 @@ with strategy.scope():
                   metrics=['accuracy'])
 
 
-
-# EarlyStopping コールバックの設定
-# early_stopping = EarlyStopping(monitor='val_loss', patience=10)
+early_stopping = EarlyStopping(monitor='val_loss', patience=10)
 
 # モデルのトレーニング前の時間記録
 start_time = time.time()
