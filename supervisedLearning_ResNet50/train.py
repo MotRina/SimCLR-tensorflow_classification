@@ -186,5 +186,5 @@ v_accus = history.history['val_accuracy']
 plot_graph(t_losses, v_losses, 'loss(train)', 'loss(validate)', '/workspaces/2023f_ojus/plot/1/train_validation_loss.png')
 plot_graph(t_accus, v_accus, 'accuracy(train)', 'accuracy(validate)', '/workspaces/2023f_ojus/plot/1/train_validation_accuracy.png')
 
-model_save_path = '/workspaces/2023f_ojus/model/model_1.h5'
+model_save_path = '/workspaces/2023f_ojus/model/model.h5'
 model.save(model_save_path)
